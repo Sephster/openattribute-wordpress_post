@@ -880,7 +880,9 @@ function openattribute_add_license_content( $output ) {
 
 					if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
 						$author               = get_the_author_meta( 'display_name' );
-						$site_attribution_url = get_the_author_meta( 'user_url' );
+						$user = get_user_by( 'login', $author );
+						$site_attribution_url = get_author_posts_url( $user->ID );
+						//$site_attribution_url = get_the_author_meta( 'user_url' );
 					}
 
 					$data_licenses = explode( "\n", $licenses );
@@ -999,10 +1001,10 @@ function openattribute_add_license_footer( $content ) {
 					$licenses             = get_option( 'openattribute_licenses' );
 
 					if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
-
 						$author               = get_the_author_meta( 'display_name' );
-						$site_attribution_url = get_the_author_meta( 'user_url' );
-
+						$user = get_user_by( 'login', $author );
+						$site_attribution_url = get_author_posts_url( $user->ID );
+						//$site_attribution_url = get_the_author_meta( 'user_url' );
 					}
 
 					$data_licenses = explode( "\n", $licenses );
@@ -1087,9 +1089,16 @@ function openattribute_add_license_header() {
 				if ( $display ) {
 					if ( ( get_option( 'openattribute_buttonset' ) == 1 ) || ( get_option( 'openattribute_linkset' ) == 1 ) || ( get_option( 'openattribute_widgetset' ) == 1 ) ) {
 						$author               = get_option( 'openattribute_site_author' );
-						$site_license         = get_option( 'openattribute_site_license' );
 						$site_attribution_url = get_option( 'openattribute_site_attribution_url' );
+						$site_license         = get_option( 'openattribute_site_license' );
 						$licenses             = get_option( 'openattribute_licenses' );
+
+						if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
+                            $author               = get_the_author_meta( 'display_name' );
+                            $user = get_user_by( 'login', $author );
+                            $site_attribution_url = get_author_posts_url( $user->ID );
+                            //$site_attribution_url = get_the_author_meta( 'user_url' );
+                        }
 
 						$data_licenses = explode( "\n", $licenses );
 
@@ -1103,7 +1112,7 @@ function openattribute_add_license_header() {
 
 						if ( $display_first ) {
 							echo '<script type="text/javascript"> function attribute_button(event){ ';
-							echo ' document.getElementById("openattribute_license_holder").style.position = "absolute";';
+							echo ' document.getElementById("openattribute_license_holder").style.position = "fixed";';
 							echo ' if(document.documentElement.scrollTop!=0){';
 							echo ' 		scroll_top = document.documentElement.scrollTop;';
 							echo ' }else{';
@@ -1352,7 +1361,7 @@ add_action( 'get_footer', 'openattribute_add_license_footer' );
 //add_action('wp_footer', 'openattribute_add_license_footer');
 //
 
-add_action( 'loop_start', 'openattribute_add_license_header' );
+add_action( 'get_footer', 'openattribute_add_license_header' );
 
 // Load pop up for style sheet
 
