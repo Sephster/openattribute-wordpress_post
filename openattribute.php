@@ -448,7 +448,7 @@ function openattribute_register() {
 	add_option( 'openattribute_site_attribution_url', '' );
 	add_option( 'openattribute_append_content', '1' );
 	add_option( 'openattribute_append_footer', '1' );
-	add_option( 'openattribute_pre_license_html', '<div>' );
+	add_option( 'openattribute_pre_license_html', '<div id="open-attribute">' );
 	add_option( 'openattribute_post_license_html', '</div>' );
 	add_option( 'openattribute_authoroverride', '' );
 	add_option( 'openattribute_index', 0 );
