@@ -882,7 +882,6 @@ function openattribute_add_license_content( $output ) {
 						$author               = get_the_author_meta( 'display_name' );
 						$user = get_user_by( 'login', $author );
 						$site_attribution_url = get_author_posts_url( $user->ID );
-						//$site_attribution_url = get_the_author_meta( 'user_url' );
 					}
 
 					$data_licenses = explode( "\n", $licenses );
@@ -1004,7 +1003,6 @@ function openattribute_add_license_footer( $content ) {
 						$author               = get_the_author_meta( 'display_name' );
 						$user = get_user_by( 'login', $author );
 						$site_attribution_url = get_author_posts_url( $user->ID );
-						//$site_attribution_url = get_the_author_meta( 'user_url' );
 					}
 
 					$data_licenses = explode( "\n", $licenses );
@@ -1097,7 +1095,6 @@ function openattribute_add_license_header() {
                             $author               = get_the_author_meta( 'display_name' );
                             $user = get_user_by( 'login', $author );
                             $site_attribution_url = get_author_posts_url( $user->ID );
-                            //$site_attribution_url = get_the_author_meta( 'user_url' );
                         }
 
 						$data_licenses = explode( "\n", $licenses );
