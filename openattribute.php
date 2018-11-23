@@ -189,7 +189,7 @@ function add_openattribute_action() {
 
 
 
-					  win.send_to_editor('<?php echo get_option( 'openattribute_pre_license_html' ); ?>' + string + '<?php echo get_option( 'openattribute_post_license_html' ); ?>');
+					  win.send_to_editor('<?php echo get_site_option( 'openattribute_pre_license_html' ); ?>' + string + '<?php echo get_site_option( 'openattribute_post_license_html' ); ?>');
 
 					  return true;
 
@@ -360,7 +360,7 @@ function add_openattribute_action() {
 			<select name="license_oa" id="license_oa">
 				<?PHP
 
-						$licenses = explode( "\n", get_option( 'openattribute_licenses' ) );
+						$licenses = explode( "\n", get_site_option( 'openattribute_licenses' ) );
 
 				while ( $license_pair = array_shift( $licenses ) ) {
 
@@ -433,8 +433,7 @@ function openattribute_button( $context ) {
 }
 
 function openattribute_register() {
-
-	update_option( 'openattribute_licenses', "http://creativecommons.org/licenses/by/3.0,Creative Commons Attribution CC BY 3.0\nhttp://creativecommons.org/licenses/by-nd/3.0,Creative Commons Attribution-NoDerivatives CC BY-ND 3.0\nhttp://creativecommons.org/licenses/by-nc-sa/3.0,Creative Commons Attribution-NonCommercial-ShareAlike CC BY-NC-SA 3.0 \nhttp://creativecommons.org/licenses/by-sa/3.0,Creative Commons Attribution-ShareAlike CC BY-SA 3.0\nhttp://creativecommons.org/licenses/by-nc/3.0,Creative Commons Attribution-NonCommercial CC BY-NC 3.0\nhttp://creativecommons.org/licenses/by-nc-nd/3.0,Creative Commons Attribution-NonCommercial-NoDerivatives CC BY-NC-ND 3.0\nhttps://creativecommons.org/publicdomain/zero/1.0/,Creative Commons Public Domain Dedication\nhttp://creativecommons.org/licenses/by/4.0,Creative Commons Attribution CC BY 4.0\nhttp://creativecommons.org/licenses/by-nd/4.0,Creative Commons Attribution-NoDerivatives CC BY-ND 4.0\nhttp://creativecommons.org/licenses/by-nc-sa/4.0,Creative Commons Attribution-NonCommercial-ShareAlike CC BY-NC-SA 4.0 \nhttp://creativecommons.org/licenses/by-sa/4.0,Creative Commons Attribution-ShareAlike CC BY-SA 4.0\nhttp://creativecommons.org/licenses/by-nc/4.0,Creative Commons Attribution-NonCommercial CC BY-NC 4.0\nhttp://creativecommons.org/licenses/by-nc-nd/4.0,Creative Commons Attribution-NonCommercial-NoDerivatives CC BY-NC-ND 4.0\n" );
+	update_site_option( 'openattribute_licenses', "http://creativecommons.org/licenses/by/3.0,Creative Commons Attribution CC BY 3.0\nhttp://creativecommons.org/licenses/by-nd/3.0,Creative Commons Attribution-NoDerivatives CC BY-ND 3.0\nhttp://creativecommons.org/licenses/by-nc-sa/3.0,Creative Commons Attribution-NonCommercial-ShareAlike CC BY-NC-SA 3.0 \nhttp://creativecommons.org/licenses/by-sa/3.0,Creative Commons Attribution-ShareAlike CC BY-SA 3.0\nhttp://creativecommons.org/licenses/by-nc/3.0,Creative Commons Attribution-NonCommercial CC BY-NC 3.0\nhttp://creativecommons.org/licenses/by-nc-nd/3.0,Creative Commons Attribution-NonCommercial-NoDerivatives CC BY-NC-ND 3.0\nhttps://creativecommons.org/publicdomain/zero/1.0/,Creative Commons Public Domain Dedication\nhttp://creativecommons.org/licenses/by/4.0,Creative Commons Attribution CC BY 4.0\nhttp://creativecommons.org/licenses/by-nd/4.0,Creative Commons Attribution-NoDerivatives CC BY-ND 4.0\nhttp://creativecommons.org/licenses/by-nc-sa/4.0,Creative Commons Attribution-NonCommercial-ShareAlike CC BY-NC-SA 4.0 \nhttp://creativecommons.org/licenses/by-sa/4.0,Creative Commons Attribution-ShareAlike CC BY-SA 4.0\nhttp://creativecommons.org/licenses/by-nc/4.0,Creative Commons Attribution-NonCommercial CC BY-NC 4.0\nhttp://creativecommons.org/licenses/by-nc-nd/4.0,Creative Commons Attribution-NonCommercial-NoDerivatives CC BY-NC-ND 4.0\n" );
 	add_option( 'openattribute_firstrun', 1 );
 	add_option( 'openattribute_rss', 1 );
 	add_option( 'openattribute_blogoverride', 1 );
@@ -448,14 +447,34 @@ function openattribute_register() {
 	add_option( 'openattribute_site_attribution_url', '' );
 	add_option( 'openattribute_append_content', '1' );
 	add_option( 'openattribute_append_footer', '1' );
-	add_option( 'openattribute_pre_license_html', '<div id="open-attribute">' );
-	add_option( 'openattribute_post_license_html', '</div>' );
+	add_site_option( 'openattribute_pre_license_html', '<div id="open-attribute">' );
+	add_site_option( 'openattribute_post_license_html', '</div>' );
 	add_option( 'openattribute_authoroverride', '' );
 	add_option( 'openattribute_index', 0 );
 	add_option( 'openattribute_indexsingle', 0 );
 	add_option( 'openattribute_postsonly', 0 );
 	add_option( 'openattribute_postsonly', 0 );
+}
 
+function openattribute_network_options_page() {
+    ?>
+    <div class="wrap">
+        <h2>Open Attribute</h2>
+        <p>This control panel allows you to set site-wide options for the Open Attribute plugin.</p>
+        <p>For individual site settings, please visit the specific site's dashboard settings.</p>
+        <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <?php
+            openattribute_show_html_options();
+            openattribute_show_add_licenses_options();
+            ?>
+            <p class="submit">
+	            <input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ); ?>" />
+                <input type="reset" class="button-primary" value="Cancel" id="cancel" />
+	        </p>
+        </form>
+    </div>
+
+    <?php
 }
 
 function openattribute_options_page() {
@@ -464,26 +483,29 @@ function openattribute_options_page() {
 	<h2>Open Attribute</h2>
 	<p>OpenAttribute is a WordPress plugin designed to allow users to add reuse licenses into their WordPress sites.</p>
 	<p>Built to allow users to be as flexible as possible with their licenses, OpenAttribute allows you to attribute your entire site or attribute each post / page individually if required.</p>
-	<p>On this control panel options for licensing are therefore divided between <a href="#blog">per page / post</a> and <a href="#site">per site</a> options. You can also <a href="#license">add</a> any licenses you would like to be able to use</p>
+	<p>On this control panel options for licensing are therefore divided between <a href="#blog">per page / post</a> and <a href="#site">per site</a> options.
+	<?php if ( ! is_multisite() ) : ?>
+	You can also <a href="#license">add</a> any licenses you would like to be able to use</p>
+	<?php endif; ?>
 	<p>This control panel also has <a href="#plugin">plugin settings</a> to control features such as RSS and attribution buttons</p>
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 	<input name="submitted" type="hidden" value="openattribute" />
 	<?PHP
 
-		$first_run      = get_option( 'openattribute_firstrun' ) == '1' ? 'checked' : '';
-		$rss_feed       = get_option( 'openattribute_rss' ) == '1' ? 'checked' : '';
-		$blog_override  = get_option( 'openattribute_blogoverride' ) == '1' ? 'checked' : '';
-		$buttonset      = get_option( 'openattribute_buttonset' ) == '1' ? 'checked' : '';
-		$linkset        = get_option( 'openattribute_linkset' ) == '1' ? 'checked' : '';
-		$widgetset      = get_option( 'openattribute_widgetset' ) == '1' ? 'checked' : '';
-		$rdfa           = get_option( 'openattribute_rdfa' ) == '1' ? 'checked' : '';
-		$disable        = get_option( 'openattribute_disable' ) == '1' ? 'checked' : '';
-		$append_content = get_option( 'openattribute_append_content' ) == '1' ? 'checked' : '';
-		$append_footer  = get_option( 'openattribute_append_footer' ) == '1' ? 'checked' : '';
-		$indexposts     = get_option( 'openattribute_index' ) == '1' ? 'checked' : '';
-		$indexsingle    = get_option( 'openattribute_indexsingle' ) == '1' ? 'checked' : '';
-		$postsonly      = get_option( 'openattribute_postsonly' ) == '1' ? 'checked' : '';
-		$altlink        = get_option( 'openattribute_altlink' );
+		$first_run      = get_site_option( 'openattribute_firstrun' ) == '1' ? 'checked' : '';
+		$rss_feed       = get_site_option( 'openattribute_rss' ) == '1' ? 'checked' : '';
+		$blog_override  = get_site_option( 'openattribute_blogoverride' ) == '1' ? 'checked' : '';
+		$buttonset      = get_site_option( 'openattribute_buttonset' ) == '1' ? 'checked' : '';
+		$linkset        = get_site_option( 'openattribute_linkset' ) == '1' ? 'checked' : '';
+		$widgetset      = get_site_option( 'openattribute_widgetset' ) == '1' ? 'checked' : '';
+		$rdfa           = get_site_option( 'openattribute_rdfa' ) == '1' ? 'checked' : '';
+		$disable        = get_site_option( 'openattribute_disable' ) == '1' ? 'checked' : '';
+		$append_content = get_site_option( 'openattribute_append_content' ) == '1' ? 'checked' : '';
+		$append_footer  = get_site_option( 'openattribute_append_footer' ) == '1' ? 'checked' : '';
+		$indexposts     = get_site_option( 'openattribute_index' ) == '1' ? 'checked' : '';
+		$indexsingle    = get_site_option( 'openattribute_indexsingle' ) == '1' ? 'checked' : '';
+		$postsonly      = get_site_option( 'openattribute_postsonly' ) == '1' ? 'checked' : '';
+		$altlink        = get_site_option( 'openattribute_altlink' );
 
 	?>
 	<h3><a name="plugin">Attribution appearance settings</a></h3>
@@ -531,16 +553,13 @@ function openattribute_options_page() {
 			<p>If you insert using this button then the license is added as text to the post / page content itself, and will therefore be displayed where you put it in the page / post. The options above (after content / after comments) will not affect the location for this license.</p>
 		</div>
 	</div>
-	<div style="width:95%; padding:10px; border:1px solid black; margin-top:7px;"><b><u>HTML Options</u></b><br/>
-		<p>
-			This section allows you (if you wish) to style how the attribution will appear.
-		</p>
-		<p>Before<br/>
-		<textarea cols="100" name="openattribute_pre_license_html"><?PHP echo stripslashes( get_option( 'openattribute_pre_license_html' ) ); ?></textarea><br />
-		</p><p>After<br/>
-		<textarea cols="100" name="openattribute_post_license_html"><?PHP echo get_option( 'openattribute_post_license_html' ); ?></textarea><br />
-		   </p>
-	</div>
+	<?php
+
+    if ( ! is_multisite() ) {
+        openattribute_show_html_options();
+	}
+
+	?>
 	<div style="width:95%; padding:10px; border:1px solid black; margin-top:7px;"><b><u>Add licensing info to the RSS feeds</u></b><br/>
 		<p>
 			Ticking this box will add attribution information to the RSS / RDFa / RSS2 feeds
@@ -560,30 +579,19 @@ function openattribute_options_page() {
 		</p>
 		<input type="checkbox" name="openattribute_firstrun" <?PHP echo $first_run; ?> /> If this box is ticked, the "first run" guidance will be displayed <br />
 	</div>
-	<h3><a name="licenses">Add Licenses</a></h3>
-	<p>Please enter the licenses you wish to use below. The format for the license is "<b>URL</b><b>,</b><b>text to display on screen</b>". If you wish to use a custom license, perhaps create a page on your blog to hold your licensing info. By default you have been provided with some <a href="http://www.creativecommons.org" target="_blank">Creative Commons licenses</a>.</p>
-	<textarea rows="5" cols="100" style="width:100%; height:200px;" name="openattribute_licenses" >
 	<?php
 
-	$string = get_option( 'openattribute_licenses' );
-
-	if ( $string == '' ) {
-		echo "http://creativecommons.org/licenses/by-nd/3.0,Attribution-NoDerivatives CC BY-ND\n";
-		echo "http://creativecommons.org/licenses/by-nc-sa/3.0,Attribution-NonCommercial-ShareAlike CC BY-NC-SA\n";
-		echo "http://creativecommons.org/licenses/by-sa/3.0,Attribution-ShareAlike CC BY-SA\n";
-		echo "http://creativecommons.org/licenses/by-nc/3.0,Attribution-NonCommercial CC BY-NC\n";
-		echo "http://creativecommons.org/licenses/by-nc-nd/3.0,Attribution-NonCommercial-NoDerivatives CC BY-NC-ND\n";
-	} else {
-		echo $string;
+	if ( ! is_multisite() ) {
+        openattribute_show_add_licenses_options();
 	}
+
 	?>
-	</textarea>
 	<h3><a name="site">Setup a site license</a></h3>
-	<p>Choose a site license from this list - you can add new licenses in the box above</p>
+	<p>Choose a site license from this list</p>
 	<select name="openattribute_license_for_site" id="openattribute_license_for_site">
 			<?PHP
 
-					$licenses = explode( "\n", get_option( 'openattribute_licenses' ) );
+					$licenses = explode( "\n", get_site_option( 'openattribute_licenses' ) );
 
 			while ( $license_pair = array_shift( $licenses ) ) {
 
@@ -648,9 +656,49 @@ function openattribute_options_page() {
 	<?php
 }
 
+function openattribute_show_html_options() {
+    ?>
+    <div style="width:95%; padding:10px; border:1px solid black; margin-top:7px;"><b><u>HTML Options</u></b><br/>
+		<p>
+			This section allows you (if you wish) to style how the attribution will appear.
+		</p>
+		<p>Before<br/>
+		<textarea cols="100" name="openattribute_pre_license_html"><?php echo stripslashes( get_site_option( 'openattribute_pre_license_html' ) ); ?></textarea><br />
+		</p><p>After<br/>
+		<textarea cols="100" name="openattribute_post_license_html"><?php echo get_site_option( 'openattribute_post_license_html' ); ?></textarea><br />
+		   </p>
+	</div>
+	<?php
+}
+
+function openattribute_show_add_licenses_options() {
+    ?>
+    <h3><a name="licenses">Add Licenses</a></h3>
+	<p>Please enter the licenses you wish to use below. The format for the license is "<b>URL</b><b>,</b><b>text to display on screen</b>". If you wish to use a custom license, perhaps create a page on your blog to hold your licensing info. By default you have been provided with some <a href="http://www.creativecommons.org" target="_blank">Creative Commons licenses</a>.</p>
+	<textarea rows="5" cols="100" style="width:100%; height:200px;" name="openattribute_licenses" >
+	<?php
+
+	$string = get_site_option( 'openattribute_licenses' );
+
+	if ( $string == '' ) {
+		echo "http://creativecommons.org/licenses/by-nd/3.0,Attribution-NoDerivatives CC BY-ND\n";
+		echo "http://creativecommons.org/licenses/by-nc-sa/3.0,Attribution-NonCommercial-ShareAlike CC BY-NC-SA\n";
+		echo "http://creativecommons.org/licenses/by-sa/3.0,Attribution-ShareAlike CC BY-SA\n";
+		echo "http://creativecommons.org/licenses/by-nc/3.0,Attribution-NonCommercial CC BY-NC\n";
+		echo "http://creativecommons.org/licenses/by-nc-nd/3.0,Attribution-NonCommercial-NoDerivatives CC BY-NC-ND\n";
+	} else {
+		echo $string;
+	}
+	?>
+	</textarea>
+    <?php
+}
+
 function openattribute_postform() {
 	if ( ( isset( $_POST['submitted'] ) ) && ( $_POST['submitted'] == 'openattribute' ) ) {
-		update_option( 'openattribute_licenses', $_POST['openattribute_licenses'] );
+		if ( isset( $_POST['openattribute_licenses'] ) {
+            update_site_option( 'openattribute_licenses', $_POST['openattribute_licenses'] );
+        }
 
 		if ( isset( $_POST['openattribute_firstrun'] ) && 'on' === $_POST['openattribute_firstrun'] ) {
 			update_option( 'openattribute_firstrun', 1 );
@@ -688,8 +736,13 @@ function openattribute_postform() {
 			update_option( 'openattribute_widgetset', 0 );
 		}
 
-		update_option( 'openattribute_pre_license_html', $_POST['openattribute_pre_license_html'] );
-		update_option( 'openattribute_post_license_html', $_POST['openattribute_post_license_html'] );
+		if ( isset($_POST['openattribute_pre_license_html'] ) ) {
+            update_site_option( 'openattribute_pre_license_html', $_POST['openattribute_pre_license_html'] );
+		}
+
+		if ( isset($_POST['openattribute_post_license_html'] ) ) {
+            update_site_option( 'openattribute_post_license_html', $_POST['openattribute_post_license_html'] );
+		}
 
 		if ( isset( $_POST['openattribute_rdfa'] ) && 'on' === $_POST['openattribute_rdfa'] ) {
 			update_option( 'openattribute_rdfa', 1 );
@@ -758,6 +811,10 @@ function openattribute_postform() {
 
 function openattribute_menu_option() {
 	add_options_page( 'OpenAttribute Options', 'OpenAttribute Options', 'manage_options', 'openattribute', 'openattribute_options_page' );
+}
+
+function openattribute_network_menu_option() {
+    add_submenu_page( 'settings.php', 'OpenAttribute Options', 'OpenAttribute Options', 'manage_options', 'openattribute', 'openattribute_network_options_page' );
 }
 
 function openattribute_save_post( $post_id ) {
@@ -876,7 +933,7 @@ function openattribute_add_license_content( $output ) {
 					$author               = get_option( 'openattribute_site_author' );
 					$site_license         = get_option( 'openattribute_site_license' );
 					$site_attribution_url = get_option( 'openattribute_site_attribution_url' );
-					$licenses             = get_option( 'openattribute_licenses' );
+					$licenses             = get_site_option( 'openattribute_licenses' );
 
 					if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
 						$author               = get_the_author_meta( 'display_name' );
@@ -894,7 +951,7 @@ function openattribute_add_license_content( $output ) {
 						}
 					}
 
-					$license_data = stripslashes( get_option( 'openattribute_pre_license_html' ) );
+					$license_data = stripslashes( get_site_option( 'openattribute_pre_license_html' ) );
 
 					if ( get_option( 'openattribute_buttonset' ) == 1 ) {
 						$license_data .= '<div onclick="attribute_button(event)" class="open_attribute_button">';
@@ -911,7 +968,7 @@ function openattribute_add_license_content( $output ) {
 					$license_data .= '<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a href="' . $post->guid . '">' . the_title( '', '', 0 ) . '</a> / <a href="' . home_url() . '">' . get_bloginfo( 'name' ) . '</a></span>';
 					$license_data .= ' by <a xmlns:cc="http://creativecommons.org/ns#" href="' . $site_attribution_url . '" property="cc:attributionName" rel="cc:attributionURL" >' . $author . '</a>';
 					$license_data .= ' is licensed under a <a rel="license" href="' . $site_license_url . '">' . $site_license . '</a>';
-					$license_data .= get_option( 'openattribute_post_license_html' );
+					$license_data .= get_site_option( 'openattribute_post_license_html' );
 
 					$output .= $license_data;
 				}
@@ -997,7 +1054,7 @@ function openattribute_add_license_footer( $content ) {
 					$author               = get_option( 'openattribute_site_author' );
 					$site_license         = get_option( 'openattribute_site_license' );
 					$site_attribution_url = get_option( 'openattribute_site_attribution_url' );
-					$licenses             = get_option( 'openattribute_licenses' );
+					$licenses             = get_site_option( 'openattribute_licenses' );
 
 					if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
 						$author               = get_the_author_meta( 'display_name' );
@@ -1020,7 +1077,7 @@ function openattribute_add_license_footer( $content ) {
 
 					if ( $display_first ) {
 
-						$license_data = stripslashes( get_option( 'openattribute_pre_license_html' ) );
+						$license_data = stripslashes( get_site_option( 'openattribute_pre_license_html' ) );
 
 						if ( get_option( 'openattribute_buttonset' ) == 1 ) {
 
@@ -1038,7 +1095,7 @@ function openattribute_add_license_footer( $content ) {
 						$license_data .= '<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a href="' . $post->guid . '">' . the_title( '', '', 0 ) . '</a> / <a href="' . home_url() . '">' . get_bloginfo( 'name' ) . '</a></span>';
 						$license_data .= ' by <a xmlns:cc="http://creativecommons.org/ns#" href="' . $site_attribution_url . '" property="cc:attributionName" rel="cc:attributionURL" >' . $author . '</a>';
 						$license_data .= ' is licensed under a <a rel="license" href="' . $site_license_url . '">' . $site_license . '</a>';
-						$license_data .= get_option( 'openattribute_post_license_html' );
+						$license_data .= get_site_option( 'openattribute_post_license_html' );
 
 						$output = $license_data;
 
@@ -1089,7 +1146,7 @@ function openattribute_add_license_header() {
 						$author               = get_option( 'openattribute_site_author' );
 						$site_attribution_url = get_option( 'openattribute_site_attribution_url' );
 						$site_license         = get_option( 'openattribute_site_license' );
-						$licenses             = get_option( 'openattribute_licenses' );
+						$licenses             = get_site_option( 'openattribute_licenses' );
 
 						if ( get_option( 'openattribute_authoroverride' ) == 1 ) {
                             $author               = get_the_author_meta( 'display_name' );
@@ -1331,6 +1388,11 @@ add_action( 'rss_item', 'openattribute_augment_feed' );
 // Admin options on wp-admin side of things
 
 add_action( 'admin_init', 'openattribute_register' );
+
+if (is_multisite()) {
+    add_action( 'network_admin_menu', 'openattribute_network_menu_option' );
+}
+
 add_action( 'admin_menu', 'openattribute_menu_option' );
 add_action( 'admin_head', 'openattribute_postform' );
 add_action( 'admin_notices', 'openattribute_firstrun' );
