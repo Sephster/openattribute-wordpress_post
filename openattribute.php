@@ -463,6 +463,7 @@ function openattribute_network_options_page() {
         <p>This control panel allows you to set site-wide options for the Open Attribute plugin.</p>
         <p>For individual site settings, please visit the specific site's dashboard settings.</p>
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <input name="submitted" type="hidden" value="openattribute">
             <?php
             openattribute_show_html_options();
             openattribute_show_add_licenses_options();
@@ -489,7 +490,7 @@ function openattribute_options_page() {
 	<?php endif; ?>
 	<p>This control panel also has <a href="#plugin">plugin settings</a> to control features such as RSS and attribution buttons</p>
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-	<input name="submitted" type="hidden" value="openattribute" />
+	<input name="submitted" type="hidden" value="openattribute">
 	<?PHP
 
 		$first_run      = get_option( 'openattribute_firstrun' ) == '1' ? 'checked' : '';
