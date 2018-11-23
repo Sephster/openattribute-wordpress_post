@@ -492,20 +492,20 @@ function openattribute_options_page() {
 	<input name="submitted" type="hidden" value="openattribute" />
 	<?PHP
 
-		$first_run      = get_site_option( 'openattribute_firstrun' ) == '1' ? 'checked' : '';
-		$rss_feed       = get_site_option( 'openattribute_rss' ) == '1' ? 'checked' : '';
-		$blog_override  = get_site_option( 'openattribute_blogoverride' ) == '1' ? 'checked' : '';
-		$buttonset      = get_site_option( 'openattribute_buttonset' ) == '1' ? 'checked' : '';
-		$linkset        = get_site_option( 'openattribute_linkset' ) == '1' ? 'checked' : '';
-		$widgetset      = get_site_option( 'openattribute_widgetset' ) == '1' ? 'checked' : '';
-		$rdfa           = get_site_option( 'openattribute_rdfa' ) == '1' ? 'checked' : '';
-		$disable        = get_site_option( 'openattribute_disable' ) == '1' ? 'checked' : '';
-		$append_content = get_site_option( 'openattribute_append_content' ) == '1' ? 'checked' : '';
-		$append_footer  = get_site_option( 'openattribute_append_footer' ) == '1' ? 'checked' : '';
-		$indexposts     = get_site_option( 'openattribute_index' ) == '1' ? 'checked' : '';
-		$indexsingle    = get_site_option( 'openattribute_indexsingle' ) == '1' ? 'checked' : '';
-		$postsonly      = get_site_option( 'openattribute_postsonly' ) == '1' ? 'checked' : '';
-		$altlink        = get_site_option( 'openattribute_altlink' );
+		$first_run      = get_option( 'openattribute_firstrun' ) == '1' ? 'checked' : '';
+		$rss_feed       = get_option( 'openattribute_rss' ) == '1' ? 'checked' : '';
+		$blog_override  = get_option( 'openattribute_blogoverride' ) == '1' ? 'checked' : '';
+		$buttonset      = get_option( 'openattribute_buttonset' ) == '1' ? 'checked' : '';
+		$linkset        = get_option( 'openattribute_linkset' ) == '1' ? 'checked' : '';
+		$widgetset      = get_option( 'openattribute_widgetset' ) == '1' ? 'checked' : '';
+		$rdfa           = get_option( 'openattribute_rdfa' ) == '1' ? 'checked' : '';
+		$disable        = get_option( 'openattribute_disable' ) == '1' ? 'checked' : '';
+		$append_content = get_option( 'openattribute_append_content' ) == '1' ? 'checked' : '';
+		$append_footer  = get_option( 'openattribute_append_footer' ) == '1' ? 'checked' : '';
+		$indexposts     = get_option( 'openattribute_index' ) == '1' ? 'checked' : '';
+		$indexsingle    = get_option( 'openattribute_indexsingle' ) == '1' ? 'checked' : '';
+		$postsonly      = get_option( 'openattribute_postsonly' ) == '1' ? 'checked' : '';
+		$altlink        = get_option( 'openattribute_altlink' );
 
 	?>
 	<h3><a name="plugin">Attribution appearance settings</a></h3>
