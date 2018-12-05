@@ -697,7 +697,7 @@ function openattribute_show_add_licenses_options() {
 
 function openattribute_postform() {
 	if ( ( isset( $_POST['submitted'] ) ) && ( $_POST['submitted'] == 'openattribute' ) ) {
-		if ( isset( $_POST['openattribute_licenses'] )) {
+		if ( isset( $_POST['openattribute_licenses'] ) ) {
             update_site_option( 'openattribute_licenses', $_POST['openattribute_licenses'] );
         }
 
