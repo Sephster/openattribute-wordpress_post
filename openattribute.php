@@ -707,31 +707,31 @@ function openattribute_postform() {
 			update_option( 'openattribute_firstrun', 0 );
 		}
 
-		if ( $_POST['openattribute_rss'] == 'on' ) {
+		if ( isset( $_POST['openattribute_rss'] ) && $_POST['openattribute_rss'] == 'on' ) {
 			update_option( 'openattribute_rss', 1 );
 		} else {
 			update_option( 'openattribute_rss', 0 );
 		}
 
-		if ( $_POST['openattribute_blogoverride'] == 'on' ) {
+		if ( isset( $_POST['openattribute_blogoverride'] ) && $_POST['openattribute_blogoverride'] == 'on' ) {
 			update_option( 'openattribute_blogoverride', 1 );
 		} else {
 			update_option( 'openattribute_blogoverride', 0 );
 		}
 
-		if ( $_POST['openattribute_buttonset'] == 'on' ) {
+		if ( isset( $_POST['openattribute_buttonset'] ) && $_POST['openattribute_buttonset'] == 'on' ) {
 			update_option( 'openattribute_buttonset', 1 );
 		} else {
 			update_option( 'openattribute_buttonset', 0 );
 		}
 
-		if ( $_POST['openattribute_linkset'] == 'on' ) {
+		if ( isset( $_POST['openattribute_linkset'] ) && $_POST['openattribute_linkset'] == 'on' ) {
 			update_option( 'openattribute_linkset', 1 );
 		} else {
 			update_option( 'openattribute_linkset', 0 );
 		}
 
-		if ( $_POST['openattribute_widgetset'] == 'on' ) {
+		if ( isset( $_POST['openattribute_widgetset'] ) && $_POST['openattribute_widgetset'] == 'on' ) {
 			update_option( 'openattribute_widgetset', 1 );
 		} else {
 			update_option( 'openattribute_widgetset', 0 );
@@ -751,25 +751,25 @@ function openattribute_postform() {
 			update_option( 'openattribute_rdfa', 0 );
 		}
 
-		if ( $_POST['openattribute_disable'] == 'on' ) {
+		if ( isset( $_POST['openattribute_disable'] ) && $_POST['openattribute_disable'] == 'on' ) {
 			update_option( 'openattribute_disable', 1 );
 		} else {
 			update_option( 'openattribute_disable', 0 );
 		}
 
-		if ( $_POST['openattribute_append_content'] == 'on' ) {
+		if ( isset( $_POST['openattribute_append_content'] ) && $_POST['openattribute_append_content'] == 'on' ) {
 			update_option( 'openattribute_append_content', 1 );
 		} else {
 			update_option( 'openattribute_append_content', 0 );
 		}
 
-		if ( $_POST['openattribute_append_footer'] == 'on' ) {
+		if ( isset( $_POST['openattribute_append_footer'] ) && $_POST['openattribute_append_footer'] == 'on' ) {
 			update_option( 'openattribute_append_footer', 1 );
 		} else {
 			update_option( 'openattribute_append_footer', 0 );
 		}
 
-		if ( $_POST['oa_author'] != '' ) {
+		if ( isset( $_POST['oa_author'] ) && $_POST['oa_author'] != '' ) {
 			update_option( 'openattribute_site_author', $_POST['oa_author'] );
 		} else {
 			update_option( 'openattribute_site_author', get_the_author_meta( 'display_name', $_POST['user'] ) );
@@ -805,8 +805,13 @@ function openattribute_postform() {
 			update_option( 'openattribute_postsonly', 0 );
 		}
 
-		update_option( 'openattribute_site_license', $_POST['openattribute_license_for_site'] );
-		update_option( 'openattribute_site_attribution_url', $_POST['oa_url'] );
+		if ( isset( $_POST['openattribute_license_for_site'] ) ) {
+            update_option( 'openattribute_site_license', $_POST['openattribute_license_for_site'] );
+		}
+
+		if ( isset( $_POST['oa_url'] ) ) {
+            update_option( 'openattribute_site_attribution_url', $_POST['oa_url'] );
+		}
 	}
 }
 
